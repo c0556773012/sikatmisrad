@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שיינדי וינברגר — שיחת פיצוח</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== CSS Reset & Variables ========== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Brand colors — from brand book */
+            --navy: #142D48;
+            --navy-dark: #0E1E30;
+            --navy-deep: #0a0f1a;
+            --navy-mid: #0F1625;
+            --navy-light: #1A3D5C;
+            --lime: #A8D04F;
+            --lime-hover: #B5D860;
+            --lime-light: rgba(168, 208, 79, 0.1);
+            --lime-glow: rgba(168, 208, 79, 0.25);
+            --white: #FFFFFF;
+            --gray-50: #F7F9FC;
+            --gray-75: #F2F4F7;
+            --gray-100: #EDEFF3;
+            --gray-200: #E2E5EA;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --text-primary: #142D48;
+            --text-secondary: #4B5563;
+            --text-tertiary: #9CA3AF;
+            --text-on-dark: #FFFFFF;
+            --text-on-dark-secondary: rgba(255, 255, 255, 0.90);
+            --font-main: 'Assistant', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --max-width: 1200px;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --radius-full: 50%;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--text-secondary);
+            background: var(--white);
+            line-height: 1.7;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* ========== Typography ========== */
+        h1 { font-size: clamp(38px, 5vw, 56px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; color: var(--text-primary); }
+        h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 700; line-height: 1.3; color: var(--text-primary); letter-spacing: -0.2px; }
+        h3 { font-size: clamp(20px, 2.6vw, 26px); font-weight: 700; line-height: 1.4; color: var(--text-primary); }
+        h4 { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+
+        /* ========== Layout ========== */
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 40px; }
+
+        section { padding: 100px 0; }
+
+        /* ========== Fade-up (subtle) ========== */
+        .fade-up {
+            opacity: 0; transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ========== Reveal-on-scroll (story unfold) ========== */
+        .reveal {
+            opacity: 0; transform: translateY(26px);
+            filter: blur(3px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1), filter 0.7s ease;
+            will-change: opacity, transform, filter;
+        }
+        .reveal.in-view { opacity: 1; transform: translateY(0); filter: blur(0); }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+        }
+
+        /* ========== Cursor light orb (dark sections) ========== */
+        .cursor-glow {
+            position: absolute; width: 340px; height: 340px; border-radius: 50%;
+            pointer-events: none; z-index: 0;
+            background: radial-gradient(circle, rgba(168,208,79,0.14) 0%, rgba(168,208,79,0.04) 35%, transparent 70%);
+            opacity: 0; transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            will-change: transform;
+        }
+        .cursor-glow.lit { opacity: 1; }
+        .hover-card { position: relative; overflow: hidden; }
+        .cursor-glow-cols { position: absolute; width: 260px; height: 260px; border-radius: 50%; pointer-events: none; z-index: 0;
+            background: radial-gradient(circle, rgba(168,208,79,0.10) 0%, transparent 65%);
+            opacity: 0; transform: translate(-50%, -50%); transition: opacity 0.3s ease; will-change: transform; }
+        .cursor-glow-cols.lit { opacity: 1; }
+        .dark-section > *:not(.cursor-glow):not(.cursor-glow-cols) { position: relative; z-index: 1; }
+
+        /* Ambient drifting blobs for dark sections */
+        .dark-blob { position: absolute; border-radius: 50%; z-index: 0; pointer-events: none; will-change: transform; }
+        .dark-blob-1 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(168,208,79,0.06) 0%, transparent 70%); top: -12%; right: -8%; animation: float1 18s ease-in-out infinite; }
+        .dark-blob-2 { width: 240px; height: 240px; background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%); bottom: 8%; left: -6%; animation: float2 16s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .dark-blob { animation: none; } }
+
+        /* ===== 1C: map steps — compass stops, open layout without cards ===== */
+        .map-steps {
+            display: flex; flex-wrap: wrap; align-items: flex-start;
+            justify-content: center; gap: 14px 34px;
+            max-width: 760px; margin: 0 auto;
+        }
+        .map-step {
+            display: flex; flex-direction: column; align-items: center;
+            text-align: center; gap: 12px; padding: 6px 4px;
+        }
+        .map-step-ico {
+            width: 54px; height: 54px; flex: none;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(168,208,79,0.12);
+            border: 2px solid rgba(168,208,79,0.55);
+            border-radius: 50%; color: var(--lime);
+        }
+        .map-step-ico svg { width: 26px; height: 26px; }
+        .map-step-text {
+            font-size: clamp(16px,1.9vw,19px); font-weight:700;
+            color:#fff; line-height:1.6; letter-spacing:-0.2px; max-width:220px;
+        }
+        @media (prefers-reduced-motion: reduce) { .map-step-ico { transition: none; animation: none; } }
+
+        /* Intro/one-liner section turned into a seamless running strip.
+           The track is direction:ltr and each unit is dir="rtl", so each Hebrew
+           phrase reads right-to-left while the whole row refills from the right
+           edge (the direction Hebrew readers expect) — no visible seam. */
+        .strip-marquee {
+            overflow: hidden; padding: 26px 0; text-align: center; position: relative;
+            background: var(--navy);
+        }
+        .strip-track {
+            display: flex; width: max-content; direction: ltr; align-items: center;
+            gap: 110px; padding-inline-end: 48px;
+        }
+        .strip-marquee.paused .strip-track { animation-play-state: paused; }
+        .strip-unit {
+            display: inline-flex; align-items: center; direction: rtl; white-space: nowrap;
+            flex: 0 0 auto;
+        }
+        .strip-unit .strip-item {
+            display: inline-flex; align-items: center; white-space: nowrap; font-weight: 700;
+            font-size: clamp(20px,2.8vw,30px); color: #fff; line-height: 1.5; padding: 0 22px;
+        }
+        .strip-ico { display: inline-flex; align-items: center; margin-inline-start: 12px; width: 28px; height: 28px; }
+        .strip-ico svg { width: 28px; height: 28px; stroke: var(--lime); fill: none; }
+        /* visible divisor so each fresh set is clearly read entering from the right */
+        .strip-unit .strip-item:first-child { position: relative; }
+        .strip-unit:not(:last-child)::after {
+            content: ''; align-self: center; width: 2px; height: 1.4em;
+            background: rgba(168,208,79,0.55); margin-inline-start: 6px; flex: 0 0 auto;
+        }
+
+        /* Colorful moving sheen on section headings (h2/h3 with class .sheen) */
+        .sheen {
+            background: linear-gradient(90deg, var(--step-sheen-a, var(--navy)) 0%, var(--step-sheen-b, #1E5AA8) 20%, var(--step-sheen-a, var(--navy)) 40%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; color: transparent;
+            background-size: 200% auto;
+            animation: sheenMove 6s linear infinite;
+        }
+        @keyframes sheenMove {
+            from { background-position: 0% center; }
+            to { background-position: -200% center; }
+        }
+        @media (prefers-reduced-motion: reduce) { .sheen { animation: none; } }
+
+        /* ========== Buttons ========== */
+        .cta-btn {
+            display: inline-block; background: var(--lime); color: var(--navy);
+            font-family: var(--font-main); font-size: 19px; font-weight: 700;
+            padding: 18px 48px; border: none; border-radius: var(--radius-lg);
+            cursor: pointer; text-decoration: none; position: relative; overflow: hidden;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(168,208,79,0.25);
+        }
+        .cta-btn::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+            transform: translateX(-150%) skewX(-25deg);
+            pointer-events: none;
+        }
+        .cta-btn:hover::before { animation: shine 0.65s ease-out forwards; }
+        .cta-btn:hover { background: var(--lime-hover); transform: scale(1.04); box-shadow: 0 6px 24px rgba(168,208,79,0.45); }
+        .cta-btn:active { transform: scale(0.98) translateY(1px); }
+        .cta-btn:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
+        .hero .cta-btn {
+            animation: heroCtaPulse 2.2s ease-in-out 1.2s both;
+        }
+        @keyframes heroCtaPulse {
+            0%, 100% { box-shadow: 0 2px 8px rgba(168,208,79,0.25); }
+            15% { box-shadow: 0 0 0 0 rgba(168,208,79,0.6), 0 2px 8px rgba(168,208,79,0.25); }
+            30% { box-shadow: 0 0 0 16px rgba(168,208,79,0), 0 2px 8px rgba(168,208,79,0.25); }
+        }
+        @keyframes float1 { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(5deg); } }
+        @keyframes float2 { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-22px) rotate(-4deg); } }
+        @keyframes float3 { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-18px) rotate(3deg); } }
+        @keyframes scaleIn { 0% { transform: scale(0.4); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        @keyframes shine { 0% { transform: translateX(-150%) skewX(-25deg); } 100% { transform: translateX(150%) skewX(-25deg); } }
+        @keyframes bounceDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+        @keyframes scrollDown { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+        .cta-wrapper { margin-top: 40px; }
+
+        /* ========== Section 1: Hero ========== */
+        .hero {
+            background:
+                radial-gradient(ellipse at 20% 60%, rgba(168,208,79,0.08) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 20%, rgba(168,208,79,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(20,45,72,0.9) 0%, var(--navy-deep) 70%);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding-top: 100px;
+            display: flex;
+            align-items: flex-start;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(20,45,72,0.10) 0%, rgba(20,45,72,0.25) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero-blob { position: absolute; border-radius: 50%; z-index: 1; pointer-events: none; will-change: transform; }
+        .hero-blob-1 { width: 420px; height: 420px; background: radial-gradient(circle, rgba(168,208,79,0.07) 0%, transparent 70%); top: -10%; right: -8%; animation: float1 16s ease-in-out infinite; }
+        .hero-blob-2 { width: 260px; height: 260px; background: radial-gradient(circle, rgba(168,208,79,0.05) 0%, transparent 70%); bottom: 10%; left: -5%; animation: float2 14s ease-in-out infinite; }
+        .hero-blob-3 { width: 180px; height: 180px; background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%); top: 50%; left: 15%; animation: float3 20s ease-in-out infinite; }
+        .hero .container { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; padding-top: 24px; }
+        .hero-content { max-width: 780px; text-align: right; }
+        .hero-content h1 {
+            margin-bottom: 32px; color: var(--text-on-dark);
+            font-size: clamp(64px, 9vw, 104px);
+            font-weight: 900; letter-spacing: -2.5px;
+            line-height: 0.95;
+            animation: heroH1In 1s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        .hero-content h1 .accent { color: var(--lime); }
+        .hero-content .subtitle {
+            font-size: clamp(18px, 2vw, 22px); font-weight: 400; line-height: 2;
+            margin-bottom: 8px; color: rgba(255,255,255,0.65);
+        }
+        .hero-content .subtitle.hero-sub-sm {
+            font-size: clamp(15px, 1.6vw, 18px);
+            color: rgba(255,255,255,0.55);
+        }
+        .hero-content .subtitle strong { font-weight: 700; color: #fff; }
+        .hero-content .subtitle.hero-sub-sm strong { font-weight: 700; color: #fff; }
+        .hero-content .subtitle .hero-why {
+            font-size: clamp(22px, 2.6vw, 28px);
+            font-weight: 700;
+            color: #fff;
+            display: block;
+            margin-top: 8px;
+            letter-spacing: -0.3px;
+        }
+        .hero-content .subtitle .hero-why .hero-red {
+            color: #FF4D4D;
+            text-shadow: 0 0 12px rgba(255,77,77,0.35);
+            display: block;
+        }
+        /* Pain questions — larger, more air */
+        .hero-content .subtitle.hero-pain-q {
+            font-size: clamp(17px, 1.8vw, 20px);
+            color: rgba(255,255,255,0.55);
+            line-height: 2.2;
+            margin-top: 32px; margin-bottom: 12px;
+        }
+        .hero-content .subtitle.hero-pain-q strong { color: #fff; font-weight: 600; }
+
+        /* Highlighted pain phrase */
+        .hero-highlight {
+            color: #fff;
+            font-weight: 700;
+            display: inline;
+            font-size: 110%;
+            letter-spacing: 0.3px;
+            text-shadow: 0 0 18px rgba(255, 255, 255, 0.5);
+        }
+        /* Punchline */
+        .hero-content .subtitle.hero-punch {
+            font-size: clamp(22px, 2.6vw, 30px);
+            color: #fff;
+            font-weight: 600;
+            margin-top: 36px;
+            letter-spacing: -0.3px;
+        }
+        .hero-content .subtitle.hero-punch strong {
+            color: var(--navy);
+            background: var(--lime);
+            padding: 2px 12px;
+            font-weight: 800;
+        }
+        /* Animations */
+        .hero-content .subtitle:nth-of-type(1) { animation: heroSlideUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
+        .hero-content .subtitle:nth-of-type(2) { animation: heroSlideUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
+        .hero-content .subtitle:nth-of-type(3) { animation: heroSlideUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.6s both; }
+        .hero .cta-wrapper {
+            text-align: right; margin-top: 48px;
+            animation: heroSlideUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.75s both;
+        }
+        .hero .cta-btn {
+            font-size: 20px; padding: 22px 56px; font-weight: 700;
+            animation: heroCtaPulse 2.2s ease-in-out 1.4s both;
+        }
+        @keyframes heroH1In {
+            from { opacity: 0; transform: translateY(-20px); letter-spacing: -1px; }
+            to { opacity: 1; transform: translateY(0); letter-spacing: -2.5px; }
+        }
+        @keyframes heroSlideUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* ========== Section 2: Benefits — מפצחת ========== */
+        .benefits-section {
+            background: linear-gradient(180deg, var(--white) 0%, rgba(168,208,79,0.025) 50%, var(--white) 100%);
+        }
+        .benefits-section h2 { text-align: center; margin-bottom: 16px; }
+        .benefits-section .intro {
+            text-align: center; font-size: 18px; color: var(--text-secondary);
+            margin-bottom: 56px; max-width: 640px; margin-left: auto; margin-right: auto;
+        }
+
+        .benefit-cards {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; background: transparent; border-radius: var(--radius-md); overflow: visible;
+            max-width: var(--max-width); margin: 0 auto;
+        }
+        .benefit-card {
+            background: var(--white); padding: 40px 20px 36px; text-align: center;
+            border-radius: var(--radius-md);
+            display: flex; flex-direction: column; align-items: center; gap: 16px;
+            transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s;
+        }
+        .benefit-card.fade-up { opacity: 0; transform: translateY(28px); }
+        .benefit-card.fade-up.visible { opacity: 1; transform: translateY(0); }
+        .benefit-card:nth-child(1) { transition-delay: 0ms; }
+        .benefit-card:nth-child(2) { transition-delay: 80ms; }
+        .benefit-card:nth-child(3) { transition-delay: 160ms; }
+        .benefit-card:nth-child(4) { transition-delay: 240ms; }
+        .benefit-card:hover { background: var(--gray-75); }
+        .benefit-card .benefit-illustration {
+            width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
+            margin-bottom: 4px; animation: bob 5.8s ease-in-out infinite;
+        }
+        .benefit-card .benefit-illustration svg { width: 72px; height: 72px; }
+        .benefit-card h4 { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+        .benefit-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 200px; }
+
+        /* ========== Section 3: Flip Cards ========== */
+        .flip-section {
+            background: linear-gradient(180deg, var(--gray-50) 0%, rgba(168,208,79,0.06) 40%, var(--gray-50) 100%);
+        }
+        .flip-section h2 {
+            text-align: center; margin-bottom: 56px;
+        }
+
+        .flip-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 48px 32px; max-width: var(--max-width); margin: 0 auto; }
+
+        .flip-wrapper { display: flex; flex-direction: column; gap: 16px; max-width: 360px; justify-self: center; }
+        .flip-wrapper.fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .flip-wrapper.fade-up.visible { opacity: 1; transform: translateY(0); }
+        .flip-wrapper:nth-child(1) { transition-delay: 0ms; }
+        .flip-wrapper:nth-child(2) { transition-delay: 120ms; }
+        .flip-wrapper:nth-child(3) { transition-delay: 240ms; }
+        .flip-wrapper:nth-child(4) { transition-delay: 360ms; }
+
+        .flip-card { perspective: 1200px; cursor: pointer; aspect-ratio: 3 / 4; min-height: 560px; }
+        .flip-card:focus-visible { outline: 3px solid var(--lime); outline-offset: 4px; border-radius: var(--radius-md); }
+        .flip-card-inner {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: var(--radius-md); padding: 28px 26px;
+            display: flex; flex-direction: column; justify-content: space-evenly; align-items: center;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            overflow-y: auto;
+        }
+        .flip-card-front {
+            background: linear-gradient(160deg, rgba(193,224,90,0.15) 0%, rgba(168,208,79,0.08) 100%);
+            border: 2px solid rgba(168,208,79,0.25);
+            box-shadow: 0 4px 20px rgba(168,208,79,0.08);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .flip-card-back {
+            background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 100%);
+            transform: rotateY(180deg);
+        }
+        .flip-card:hover .flip-card-front {
+            border-color: rgba(168,208,79,0.6);
+            box-shadow: 0 6px 28px rgba(168,208,79,0.18);
+        }
+        .flip-card-front .client-name { font-size: 19px; font-weight: 600; color: #2d4415; text-align: center; margin-bottom: 0; }
+        .flip-card-front .client-quote { font-size: 19px; line-height: 1.7; color: #3d5a1e; text-align: center; margin-top: 0; }
+        .flip-card-front .content-group { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .flip-card-front .client-hint {
+            display: block; text-align: center;
+            font-size: 15px; font-weight: 700;
+            color: var(--navy);
+            margin-top: 12px;
+        }
+
+        .flip-card-back::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, transparent, var(--lime), transparent); opacity: 0.5;
+        }
+        .flip-card-back .solution-label {
+            display: inline-block; background: rgba(168,208,79,0.15); color: var(--lime); font-size: 14px; font-weight: 600;
+            margin-bottom: 14px; padding: 4px 11px; border-radius: var(--radius-sm); align-self: center;
+        }
+        .flip-card-back .solution-quote { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.88); margin-bottom: 14px; text-align: center; }
+        .flip-card-back .result { font-size: 15px; font-weight: 700; color: var(--lime); padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
+
+        .mini-carousel {
+            position: relative; overflow: hidden; min-height: 90px;
+            background: transparent;
+            border-radius: 0; padding: 0;
+            border: none;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mini-track {
+            position: relative; width: 100%; min-height: 90px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mini-track-inner {
+            position: relative; width: 100%;
+        }
+        .mini-slide {
+            text-align: center; padding: 14px 24px;
+            font-size: 15px; color: var(--text-secondary); line-height: 1.8;
+            position: absolute; top: 0; left: 0; width: 100%;
+            opacity: 0; transform: translateY(8px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            pointer-events: none;
+        }
+        .mini-slide.active {
+            opacity: 1; transform: translateY(0);
+            pointer-events: auto; position: relative;
+        }
+        .mini-slide p { margin: 0; }
+        .mini-slide strong { color: var(--text-primary); font-weight: 700; display: block; margin-bottom: 4px; }
+        .carousel-dots { display: none; }
+        .carousel-dot { display: none; }
+
+        /* ========== Section 4: Steps ========== */
+        .steps-section {
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 30%, var(--white) 100%);
+        }
+        .steps-section h2 { text-align: center; margin-bottom: 56px; }
+
+        .steps-grid {
+            display: flex; align-items: stretch; justify-content: center; gap: 0;
+            max-width: var(--max-width); margin: 0 auto; position: relative;
+        }
+        .step-card {
+            flex: 1; max-width: 360px;
+            background: var(--white); border-radius: var(--radius-md);
+            padding: 48px 32px 40px; text-align: center;
+            box-shadow: var(--shadow-sm);
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            position: relative; z-index: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .step-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+        }
+        .step-card-num {
+            width: 64px; height: 64px; min-width: 64px; border-radius: var(--radius-full);
+            background: var(--lime); color: var(--navy); font-size: 26px; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 0 8px rgba(168,208,79,0.12);
+        }
+        .step-card h4 { font-size: 19px; font-weight: 700; color: var(--text-primary); line-height: 1.5; }
+        .step-card .step-note { font-size: 15px; color: var(--text-secondary); line-height: 1.8; }
+
+        /* Arrows between cards */
+        .step-arrow {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 8px; z-index: 0; flex-shrink: 0;
+        }
+        .step-arrow svg { width: 32px; height: 32px; }
+
+        .steps-section .cta-wrapper { text-align: center; margin-top: 64px; }
+
+        /* ========== Section 5: Objections ========== */
+        .objections-section {
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
+        }
+        .objections-section h2 { text-align: center; margin-bottom: 24px; }
+        .objections-list { max-width: 720px; margin: 0 auto; }
+        .objections-list .obj-item {
+            padding: 0; margin-bottom: 16px;
+            background: var(--white); border-radius: var(--radius-md);
+            border-right: 3px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+        .objections-list .obj-item:hover {
+            border-right-color: var(--lime);
+            box-shadow: 0 2px 16px rgba(168,208,79,0.12);
+        }
+        .objections-list .obj-item.open {
+            border-right-color: var(--lime);
+            box-shadow: 0 2px 16px rgba(168,208,79,0.12);
+        }
+        .obj-question-wrap {
+            display: flex; align-items: center; gap: 10px;
+            padding: 32px 28px; cursor: pointer; user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.2s;
+        }
+        .obj-question-wrap:hover { background: var(--gray-75); }
+        .obj-item .obj-question { font-size: 18px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; flex: 1; }
+        .obj-icon { width: 28px; height: 28px; flex-shrink: 0; }
+        .obj-chevron {
+            flex-shrink: 0; width: 20px; height: 20px;
+            transition: transform 0.3s ease;
+            color: var(--gray-400);
+        }
+        .obj-item.open .obj-chevron { transform: rotate(180deg); color: var(--lime); }
+        .obj-answer-wrap {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .obj-item.open .obj-answer-wrap { max-height: 500px; }
+        .obj-answer-inner { padding: 0 28px 32px 28px; }
+        .obj-item .obj-answer { font-size: 16px; color: var(--text-secondary); line-height: 1.9; }
+        .obj-item .obj-highlight {
+            display: inline-block; margin-top: 12px; padding: 8px 16px;
+            background: var(--lime-light); border-radius: var(--radius-lg);
+            font-weight: 700; color: var(--navy); font-size: 16px;
+        }
+
+        /* ========== Section 6: CTA ========== */
+        .cta-section {
+            background: linear-gradient(170deg, var(--navy-deep) 0%, #0B1D3A 60%, #0E1E30 100%);
+            text-align: center; padding: 100px 0;
+            position: relative; overflow: hidden;
+        }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent 0%, var(--lime) 25%, transparent 50%, var(--lime) 75%, transparent 100%);
+            background-size: 200% 100%; opacity: 0.5; animation: shimmer 4s linear infinite;
+        }
+        .cta-section .cta-btn { margin-bottom: 36px; }
+        .testimonial-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: var(--max-width); margin: 0 auto; }
+        .testimonial-strip-item {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md); padding: 20px 22px;
+            text-align: center; transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .testimonial-strip-item:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(168,208,79,0.35);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 28px rgba(168,208,79,0.1);
+        }
+        .ts-quote { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 10px; }
+        .ts-name { font-size: 13px; font-weight: 700; color: var(--lime); }
+
+        /* ========== Section 7: Personal ========== */
+        .personal-section {
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 40%, rgba(168,208,79,0.03) 100%);
+            text-align: center;
+        }
+        .personal-section .personal-text { max-width: 580px; margin: 0 auto 12px; font-size: 22px; color: var(--text-secondary); line-height: 2.1; }
+        .personal-section .personal-text strong { color: var(--text-primary); }
+        .personal-section .signature img { height: 80px; width: auto; animation: bob 4s ease-in-out infinite; }
+        .personal-section .sig-logo { height: auto !important; max-height: 70px; object-fit: cover; object-position: top; }
+        .handwritten-sig {
+            font-family: var(--font-main);
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            line-height: 2.1;
+            display: block;
+        }
+
+        /* ========== Section 8: Footer ========== */
+        .footer-testimonials {
+            background: var(--navy-deep); text-align: center;
+            padding: 56px 0 40px;
+        }
+        .footer-testimonials .section-label {
+            color: var(--lime); font-size: 18px; font-weight: 700; margin-bottom: 28px;
+        }
+        .footer-testimonial-grid {
+            display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+            max-width: 880px; margin: 0 auto; padding: 0 24px;
+        }
+        .footer-testimonial-item {
+            font-size: 14px; color: #e0e0e0; padding: 14px 22px;
+            background: #2a2a2e; border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.08);
+            white-space: nowrap;
+            animation: testimonialFade 0.5s ease;
+        }
+        .footer-testimonial-set {
+            display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+        }
+        @keyframes testimonialFade {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            text-align: center; padding: 0 24px 40px; font-size: 14px; color: var(--text-on-dark-secondary);
+            background: var(--navy-deep);
+        }
+        footer p { max-width: 600px; margin: 0 auto; }
+
+        /* ========== Enhanced animations ========== */
+        .benefit-card { transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+        .benefit-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(20,45,72,0.10); border-color: var(--lime); }
+
+        .step-card { transition: transform 0.3s ease; }
+        .step-card:hover { transform: translateY(-6px); }
+
+        @keyframes gentlePulse {
+            0%, 100% { box-shadow: 0 2px 8px rgba(168,208,79,0.25), 0 0 0 0 rgba(168,208,79,0.45); }
+            50% { box-shadow: 0 10px 34px rgba(168,208,79,0.7), 0 0 0 12px rgba(168,208,79,0); }
+        }
+        .cta-btn { animation: gentlePulse 2.6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .cta-btn { animation: none; } }
+
+        /* Glow ring that lingers behind the primary hero CTA — "radiating" pull. */
+        @keyframes cta-ring {
+            0%   { transform: scale(1);   opacity: 0.55; }
+            70%  { transform: scale(1.7); opacity: 0; }
+            100% { transform: scale(1.7); opacity: 0; }
+        }
+        .hero .cta-wrapper .cta-btn { position: relative; }
+        .hero .cta-wrapper .cta-btn::after {
+            content: ''; position: absolute; inset: 0; border-radius: inherit;
+            border: 2px solid rgba(168,208,79,0.7);
+            animation: cta-ring 2.6s ease-out infinite; pointer-events: none;
+        }
+        @media (prefers-reduced-motion: reduce) { .hero .cta-wrapper .cta-btn::after { animation: none; display: none; } }
+
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .hero-big-question { animation: floatY 5s ease-in-out infinite; }
+
+        /* Reduced motion — disable all */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+            .fade-up { opacity: 1; transform: none; }
+            .benefit-card, .obj-item, .step-card { transition: none; }
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            section { padding: 72px 0; }
+            .hero { padding: 88px 0 72px; min-height: auto; }
+            .hero-content { max-width: 100%; }
+            .hero-content h1 { font-size: 42px; }
+            .hero-big-question { flex-direction: row; }
+            .hero-big-question p { font-size: 24px; }
+            .hero-q-mark { font-size: 42px; }
+            .hero-three-boxes { grid-template-columns: repeat(3, 1fr); }
+            .hero-box { font-size: 15px; padding: 12px 14px; }
+            .benefit-cards { grid-template-columns: repeat(2, 1fr); }
+            .flip-grid { grid-template-columns: 1fr; max-width: 540px; }
+            .steps-section h2 { font-size: 24px; }
+            .steps-grid { flex-direction: column; align-items: center; }
+            .step-arrow { transform: rotate(90deg); padding: 8px 0; }
+            .personal-section .personal-text { font-size: 19px; }
+            .testimonial-strip { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 20px; }
+            section { padding: 56px 0; }
+            .hero { padding: 76px 0 56px; }
+            .benefit-cards { grid-template-columns: 1fr; }
+            .benefit-card { padding: 32px 24px 28px; }
+            .flip-grid { grid-template-columns: 1fr; }
+            .flip-card-front, .flip-card-back { padding: 18px 14px; }
+            .step-card { padding: 32px 24px; }
+            .step-card h4 { font-size: 17px; }
+            .step-card .step-note { font-size: 14px; }
+            .steps-grid { flex-direction: column; align-items: center; }
+            .step-arrow { transform: rotate(90deg); padding: 8px 0; }
+            .objections-list .obj-item { padding: 0; }
+            .obj-question-wrap { padding: 24px 20px; }
+            .obj-answer-inner { padding: 0 20px 24px 20px; }
+            .flip-section h2, .steps-section h2, .benefits-section h2 { font-size: 22px; }
+            .testimonial-strip { grid-template-columns: 1fr; gap: 10px; }
+            .testimonial-strip-item { padding: 16px 18px; }
+            .ts-quote { font-size: 13px; }
+            .footer-testimonial-item { white-space: normal; font-size: 13px; padding: 12px 18px; }
+            .footer-testimonials { padding: 40px 0 28px; }
+        }
+
+        /* ========== Sticky Navigation ========== */
+        .site-nav {
+            position: fixed; top: 0; right: 0; left: 0; z-index: 1000;
+            display: flex; align-items: center; gap: 18px;
+            padding: 14px 32px;
+            background: #112D48;
+            box-shadow: 0 2px 18px rgba(0,0,0,0.35);
+            transition: transform 0.35s ease, background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+            will-change: transform;
+        }
+        .site-nav.nav-hidden { transform: translateY(-100%); }
+        .site-nav.nav-solid {
+            padding: 10px 32px;
+        }
+        .site-nav .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+        .site-nav .nav-links a {
+            color: rgba(255,255,255,0.78); text-decoration: none;
+            font-size: 15px; font-weight: 600; padding: 8px 14px; border-radius: 999px;
+            transition: color 0.2s, background 0.2s;
+        }
+        .site-nav .nav-links a:hover { color: #fff; background: rgba(168,208,79,0.15); }
+        .site-nav .nav-links a.is-active { color: var(--navy); background: var(--lime); }
+        .site-nav .nav-spacer { flex: 1; }
+        .site-nav .nav-brand {
+            display: inline-flex; align-items: center;
+            line-height: 0; text-decoration: none;
+        }
+        .site-nav .nav-logo {
+            height: 54px; width: auto;
+            object-fit: contain;
+            transition: height 0.3s ease; aspect-ratio: auto;
+        }
+        .site-nav.nav-solid .nav-logo { height: 46px; }
+        .site-nav .nav-cta {
+            background: var(--lime); color: var(--navy); text-decoration: none;
+            font-weight: 800; font-size: 14px; padding: 10px 20px; border-radius: 999px;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+            animation: ctaGlow 2.4s ease-in-out infinite;
+        }
+        .site-nav .nav-cta:hover {
+            background: var(--lime-hover); transform: translateY(-2px);
+            animation: none;
+        }
+        @keyframes ctaGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(168,208,79,0.5), 0 2px 12px rgba(168,208,79,0.35); }
+            50%      { box-shadow: 0 0 16px 4px rgba(168,208,79,0.6), 0 2px 20px rgba(168,208,79,0.45); }
+        }
+        @media (prefers-reduced-motion: reduce) { .site-nav .nav-cta { animation: none; } }
+        @media (max-width: 768px) {
+            .site-nav .nav-links { display: none; }
+            .site-nav { padding: 12px 20px; }
+            .site-nav.nav-solid { padding: 10px 20px; }
+            .site-nav .nav-brand { margin-inline-end: auto; }
+            .site-nav .nav-logo { height: 40px; }
+            .site-nav .nav-cta { padding: 9px 16px; font-size: 13px; }
+        }
+
+        /* ========== Typewriter ========== */
+        .typewriter-line {
+            display: inline-block; direction: rtl;
+            font-size: clamp(20px, 2.6vw, 30px);
+            font-weight: 700; color: var(--lime); line-height: 1.8;
+            min-height: 1.8em; text-align: center;
+        }
+        .typewriter-line .tw-cursor {
+            display: inline-block; width: 3px; margin-inline-start: 3px;
+            background: var(--lime); vertical-align: text-bottom;
+            animation: tw-blink 0.85s steps(1) infinite;
+        }
+        @keyframes tw-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        @media (prefers-reduced-motion: reduce) { .typewriter-line .tw-cursor { animation: none; opacity: 0; } }
+
+        /* Second, eye-catching typewriter on the hero — large framed bar
+           that types punchy reassurance lines under the main CTA. */
+        .typewriter-rotator {
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; margin: 18px auto 0; max-width: 620px;
+            font-size: clamp(15px, 2vw, 19px); font-weight: 600;
+            color: #fff; line-height: 1.7; text-align: center; direction: rtl;
+        }
+        .typewriter-rotator .tw-rot-label {
+            background: var(--lime); color: var(--navy);
+            padding: 3px 12px; border-radius: 999px;
+            font-weight: 800; font-size: 13px; white-space: nowrap;
+            letter-spacing: 0.02em; flex-shrink: 0;
+        }
+        .typewriter-rotator .tw-rot-text { min-height: 1.7em; }
+        .typewriter-rotator .tw-rot-cursor {
+            display: inline-block; width: 3px; background: var(--lime);
+            margin-inline-start: 2px; min-height: 1em; vertical-align: middle;
+            animation: tw-blink 0.85s steps(1) infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .typewriter-rotator .tw-rot-cursor { animation: none; opacity: 0; }
+        }
+
+        /* ===== 1B: diverging paths — colorful background visual ===== */
+        .split-path-bg { position: relative; overflow: hidden; }
+        .split-path-bg .path-bg-wrap { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+        .split-path-bg .path-bg-layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .split-path-bg .path-bg-layer svg { width: 100%; height: 100%; display: block; }
+
+        /* soft pastel glow blobs for extra color */
+        .split-path-bg .path-bg-blob { position: absolute; border-radius: 50%; filter: blur(55px); opacity: 0.55; will-change: transform; }
+        .split-path-bg .pb-blob-a { width: 380px; height: 380px; background: radial-gradient(circle, rgba(168,208,79,0.55) 0%, rgba(168,208,79,0) 70%); top: -110px; left: -80px; animation: paveFloat 17s ease-in-out infinite; }
+        .split-path-bg .pb-blob-b { width: 320px; height: 320px; background: radial-gradient(circle, rgba(107,182,224,0.5) 0%, rgba(107,182,224,0) 70%); bottom: -70px; right: -60px; animation: paveFloat 21s ease-in-out infinite reverse; }
+        .split-path-bg .pb-blob-c { width: 260px; height: 260px; background: radial-gradient(circle, rgba(167,139,250,0.42) 0%, rgba(167,139,250,0) 70%); top: 26%; right: 20%; animation: paveFloat 14s ease-in-out infinite; }
+        @keyframes paveFloat { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(16px,-20px) scale(1.06); } 66% { transform: translate(-14px,12px) scale(0.96); } }
+
+        /* the branching-path strokes */
+        .split-path-bg .pth { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .split-path-bg .pth-flow { stroke-dasharray: 5 13; animation: pathFlow 3.2s linear infinite; }
+        @keyframes pathFlow { to { stroke-dashoffset: -36; } }
+
+        /* pulsing nodes at branch tips */
+        .split-path-bg .p-node { animation: nodePulse 2.8s ease-in-out infinite; }
+        @keyframes nodePulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+
+        /* floating "option" pills echoing the copy */
+        .split-path-bg .fp-pill {
+            position: absolute; z-index: 1; pointer-events: none;
+            font-family: var(--font-main); font-weight: 800; font-size: 15px; letter-spacing: 0.2px;
+            line-height: 1; padding: 9px 17px; border-radius: 999px;
+            background: rgba(255,255,255,0.8);
+            -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+            box-shadow: 0 6px 22px rgba(20,45,72,0.12);
+            will-change: transform;
+            animation: pillIn 0.7s ease both, pillBob 6s ease-in-out infinite;
+        }
+        .split-path-bg .fp-pill-a { color: #1E5AA8; border: 2px solid rgba(107,182,224,0.55); top: 9%; left: 6%; }
+        .split-path-bg .fp-pill-b { color: #2E7D32; border: 2px solid rgba(168,208,79,0.75); top: 7%; right: 7%; animation-delay: 0.2s, -1.4s; }
+        .split-path-bg .fp-pill-c { color: #6D28D9; border: 2px solid rgba(167,139,250,0.7); bottom: 18%; right: 18%; animation-delay: 0.4s, -0.6s; }
+        .split-path-bg .fp-pill-d { color: #B45309; border: 2px solid rgba(245,184,89,0.8); top: 46%; left: 3%; animation-delay: 0.1s, -2.2s; }
+        .split-path-bg .fp-pill-e { color: #9C27B0; border: 2px solid rgba(233,150,200,0.75); bottom: 9%; left: 16%; animation-delay: 0.3s, -3.1s; }
+        @keyframes pillIn { from { opacity: 0; transform: translateY(12px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes pillBob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
+
+        @media (max-width: 680px) { .split-path-bg .fp-pill { display: none; } }
+        @media (prefers-reduced-motion: reduce) {
+            .split-path-bg .pth-flow, .split-path-bg .p-node,
+            .split-path-bg .path-bg-blob, .split-path-bg .fp-pill { animation: none; }
+            .split-path-bg .fp-pill { opacity: 1; }
+        }
+
+        /* ========== Parallax layers (soft drift on decorations) ========== */
+        .parallax-wrap {
+            position: absolute; inset: 0; overflow: hidden;
+            pointer-events: none; z-index: 0; will-change: transform;
+        }
+        .parallax-wrap > * { position: absolute; }
+        @media (prefers-reduced-motion: reduce) { .parallax-wrap { transform: none !important; } }
+
+        /* ============================================================
+           NEW: Highway streaks — light lanes sweeping across the hero,
+           echoing the "driving the business" metaphor. Ported & restyled
+           in brand lime (guard against flashing: gentle width/count).
+           ============================================================ */
+        .highway-layer {
+            position: absolute; inset: 0; overflow: hidden;
+            pointer-events: none; z-index: 1;
+        }
+        .hero .highway-layer { z-index: 1; }
+        .hero > .container, .hero > .parallax-wrap ~ * { position: relative; z-index: 2; }
+
+        .hw-streak {
+            position: absolute; left: 0; top: 0; height: 2px;
+            width: 40%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(168,208,79,0) 0%, rgba(168,208,79,0.85) 45%, var(--lime) 60%, rgba(168,208,79,0) 100%);
+            -webkit-filter: drop-shadow(0 0 6px rgba(168,208,79,0.55)); filter: drop-shadow(0 0 6px rgba(168,208,79,0.55));
+            opacity: 0;
+            will-change: transform, opacity;
+            animation: hw-sweep 4s ease-in-out infinite;
+        }
+        .hw-streak.reverse { background: linear-gradient(270deg, rgba(168,208,79,0) 0%, rgba(168,208,79,0.85) 45%, var(--lime) 60%, rgba(168,208,79,0) 100%); animation-direction: reverse; }
+        @keyframes hw-sweep {
+            0%   { opacity: 0; transform: translateX(-115%); }
+            45%  { opacity: 0.6; }
+            60%  { opacity: 0.28; }
+            100% { opacity: 0; transform: translateX(320%); }
+        }
+        @media (prefers-reduced-motion: reduce) { .hw-streak { animation: none; opacity: 0; } }
+
+        /* ============================================================
+           NEW: Rotating spokes carousel — portraits orbiting a hub on
+           the testimonials section (POV from the "point of navigation"
+           panel). Slow, elegant, counter-rotating so faces stay level.
+           ============================================================ */
+        .spokes-wrap {
+            position: relative; display: flex; align-items: center; justify-content: center;
+            margin: 42px auto 0; width: min(320px, 86vw); aspect-ratio: 1 / 1;
+        }
+        .spokes-hub {
+            position: absolute; width: 130px; height: 130px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle at 30% 30%, rgba(168,208,79,0.22) 0%, rgba(20,45,72,0.9) 70%);
+            border: 2px solid rgba(168,208,79,0.4);
+            color: #fff; text-align: center; line-height: 1.3; padding: 14px;
+            box-shadow: 0 0 40px rgba(168,208,79,0.18), inset 0 0 24px rgba(168,208,79,0.12);
+            z-index: 2;
+        }
+        .spokes-hub small { display: block; font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 600; }
+        .spokes-hub strong { display: block; font-size: 22px; font-weight: 800; color: var(--lime); margin-top: 2px; }
+        .spokes-orbit {
+            position: absolute; inset: 0; border-radius: 50%;
+            animation: spokes-spin 44s linear infinite;
+        }
+        .spokes-orbit.reverse { animation-direction: reverse; }
+        @keyframes spokes-spin { to { transform: rotate(360deg); } }
+        .spokes-spoke {
+            position: absolute; top: 50%; left: 50%;
+            width: 0; height: 0;
+        }
+        .spokes-card {
+            width: 84px; height: 84px; border-radius: 50%; overflow: hidden;
+            border: 2px solid rgba(168,208,79,0.7);
+            box-shadow: 0 10px 26px rgba(10,15,26,0.5);
+            background: var(--navy-deep, #0e1520);
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+        .spokes-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        /* place each spoke on the circle rim, then keep its face level */
+        .spokes-spoke {
+            transform: rotate(var(--ang)) translateX(calc(min(320px,86vw) / 2 - 10px)) rotate(calc(var(--ang) * -1));
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .spokes-orbit, .spokes-card { animation: none; }
+        }
+    </style>
+</head>
+<body id="top">
+
+<nav class="site-nav" id="siteNav" aria-label="ניווט ראשי">
+    <a class="nav-brand" href="#top" aria-label="שיינדי — לעמוד הראשי">
+        <img src="images/logo-wide-color.png" alt="שיינדי חיים בעסק" class="nav-logo">
+    </a>
+    <div class="nav-links">
+        <a href="#sefaker" data-nav="sefaker">מה זה מפצחת?</a>
+        <a href="#testimonials" data-nav="testimonials">סיפורי הצלחה</a>
+        <a href="#process" data-nav="process">איך זה עובד</a>
+        <a href="#objections" data-nav="objections">שאלות נפוצות</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <a class="nav-cta" href="https://pay.sumit.co.il/dhfzbv/zyc7pj/zyc7pl/payment/" target="_blank" rel="noopener">לקבוע שיחה</a>
+</nav>
+
+<!-- ========== SECTION 1: HERO ========== -->
+<section class="hero">
+    <div class="parallax-wrap parallax-hero" aria-hidden="true">
+        <div class="hero-blob hero-blob-1"></div>
+        <div class="hero-blob hero-blob-2"></div>
+        <div class="hero-blob hero-blob-3"></div>
+    </div>
+    <div class="highway-layer" aria-hidden="true">
+        <span class="hw-streak" style="top:14%; width:46%; animation-duration:4.8s;"></span>
+        <span class="hw-streak reverse" style="top:25%; width:40%; animation-duration:6.4s;"></span>
+        <span class="hw-streak" style="top:37%; width:52%; animation-duration:5.4s;"></span>
+        <span class="hw-streak reverse" style="top:49%; width:44%; animation-duration:7s;"></span>
+        <span class="hw-streak" style="top:61%; width:38%; animation-duration:4.4s;"></span>
+        <span class="hw-streak reverse" style="top:73%; width:50%; animation-duration:6s;"></span>
+        <span class="hw-streak" style="top:85%; width:42%; animation-duration:5s;"></span>
+    </div>
+    <div class="container">
+        <div class="hero-content fade-up visible">
+            <h1>השקעת<br><span class="accent">המון.</span></h1>
+            <p class="subtitle hero-sub-sm">
+                שיווק ופרסום וניהול וייעוץ עסקי וארגוני וקריאייטיב ומיתוג ויח"צ ו...
+                השתתפת בקורסים טלפוניים ופרונטליים ובכנסים בזום,
+                ביצעת אבחונים למציאת חסמים וקראת עשרות מאמרים.
+                את משקיעה את הנשמה בעסק שלך,
+                <span class="hero-why"><span class="hero-red">לא חסר לך ידע!</span> אז למה, למה הוא עדיין לא זז??</span>
+            </p>
+            <p class="subtitle hero-pain-q">
+                למה עדיין אין לך את השקט לדעת שזו הדרך הנכונה עבורך<br>
+                <span class="hero-highlight">ואין לך את הביטחון שהפעולות האלו באמת מקדמות אותך?</span>
+            </p>
+            <p class="subtitle hero-punch">
+                אולי כי אף פעם לא הכנסת <strong>מפצחת</strong> לעסק?
+            </p>
+        </div>
+        <div class="cta-wrapper">
+            <a href="https://pay.sumit.co.il/dhfzbv/zyc7pj/zyc7pl/payment/" class="cta-btn">אני רוצה פיצוח!</a>
+        </div>
+        <div class="typewriter-rotator" aria-live="off">
+            <span class="tw-rot-label">פיצוח</span>
+            <span class="tw-rot-text"></span><span class="tw-rot-cursor" aria-hidden="true"></span>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SECTION 1B: פסקת כאב — עומס האפשרויות ========== -->
+<section class="split-path-bg" style="padding:56px 0; background:#fff; position:relative;">
+    <div class="path-bg-wrap" aria-hidden="true">
+        <div class="path-bg-blob pb-blob-a"></div>
+        <div class="path-bg-blob pb-blob-b"></div>
+        <div class="path-bg-blob pb-blob-c"></div>
+        <div class="path-bg-layer">
+            <svg viewBox="0 0 1440 560" preserveAspectRatio="xMidYMid slice" focusable="false" role="presentation">
+                <path class="pth" d="M720 620 C 712 570 706 545 720 520" stroke="rgba(20,45,72,0.28)" stroke-width="5"/>
+                <g>
+                    <path class="pth pth-flow" d="M720 520 C 620 430 300 420 150 300" stroke="rgba(244,114,114,0.5)" stroke-width="3"/>
+                    <path class="pth pth-flow" d="M720 520 C 640 440 360 360 260 200" stroke="rgba(168,208,79,0.6)" stroke-width="3.4"/>
+                    <path class="pth pth-flow" d="M720 520 C 660 450 430 340 380 150" stroke="rgba(107,182,224,0.6)" stroke-width="3.2"/>
+                    <path class="pth pth-flow" d="M720 520 C 690 470 550 300 520 140" stroke="rgba(167,139,250,0.55)" stroke-width="3.4"/>
+                    <path class="pth pth-flow" d="M720 520 C 705 480 640 290 660 150" stroke="rgba(80,200,180,0.6)" stroke-width="3"/>
+                    <path class="pth pth-flow" d="M720 520 C 740 480 700 280 800 165" stroke="rgba(245,184,89,0.6)" stroke-width="3.2"/>
+                    <path class="pth pth-flow" d="M720 520 C 775 475 860 300 920 185" stroke="rgba(233,150,200,0.55)" stroke-width="3.4"/>
+                    <path class="pth pth-flow" d="M720 520 C 810 470 950 320 1060 220" stroke="rgba(129,140,248,0.55)" stroke-width="3.2"/>
+                    <path class="pth pth-flow" d="M720 520 C 850 440 1080 360 1190 290" stroke="rgba(120,190,140,0.6)" stroke-width="3"/>
+                    <path class="pth pth-flow" d="M720 520 C 880 440 1200 420 1310 350" stroke="rgba(240,160,120,0.55)" stroke-width="3.2"/>
+                    <circle class="p-node" cx="260" cy="200" r="6" fill="rgba(168,208,79,0.9)"/>
+                    <circle class="p-node" cx="380" cy="150" r="6" fill="rgba(107,182,224,0.9)"/>
+                    <circle class="p-node" cx="520" cy="140" r="6" fill="rgba(167,139,250,0.9)"/>
+                    <circle class="p-node" cx="800" cy="165" r="6" fill="rgba(245,184,89,0.9)"/>
+                    <circle class="p-node" cx="920" cy="185" r="6" fill="rgba(233,150,200,0.9)"/>
+                    <circle class="p-node" cx="1060" cy="220" r="6" fill="rgba(129,140,248,0.9)"/>
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <div class="container" style="max-width:770px; text-align:right; position:relative; z-index:2;">
+
+        <div class="reveal-group">
+
+            <!-- משפט פתיחה חם, מכוון -->
+            <p style="font-size:clamp(25px,3.2vw,36px); font-weight:600; color:var(--text-primary); line-height:1.7; letter-spacing:-0.5px;">
+                מה <span style="color:var(--text-secondary); font-weight:500;">בסך הכל</span> רצית?
+            </p>
+
+            <!-- הרצונות — כשורה אנושית, לא רשימה -->
+            <p style="margin-top:18px; font-size:clamp(22px,2.8vw,30px); font-weight:700; color:var(--text-primary); line-height:2;">
+                להתקדם נכון, לבנות עסק יציב, להרוויח היטב.
+            </p>
+
+            <!-- המעבר אל העומס -->
+            <p style="font-size:clamp(20px,2.6vw,27px); font-weight:600; color:var(--text-secondary); line-height:1.9; margin-top:26px;">
+                כבר עלית על המסלול, אבל מולך מתפצלות עשרות דרכים,
+                עשרות אפשרויות של קורסים, ייעוצים, סדנאות ועוד.
+            </p>
+
+            <!-- ראשית השאלה: הססה -->
+            <p style="font-size:clamp(23px,3vw,32px); font-weight:800; color:var(--navy); line-height:1.8; margin-top:34px;">
+                איך אפשר לבחור מתוכם?
+            </p>
+            <p style="font-size:clamp(22px,2.8vw,30px); font-weight:800; color:var(--navy); line-height:2;">
+                לדעת מה יקדם <mark style="background:var(--lime); color:var(--navy); padding:3px 12px; border-radius:6px; font-weight:900; box-decoration-break:clone; -webkit-box-decoration-break:clone;">אותך</mark> באמת?
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- floating "option" pills — echoed copy -->
+    <span class="fp-pill fp-pill-a">קורסים</span>
+    <span class="fp-pill fp-pill-b">סדנאות</span>
+    <span class="fp-pill fp-pill-c">ייעוצים</span>
+    <span class="fp-pill fp-pill-d">הרצאות</span>
+    <span class="fp-pill fp-pill-e">השתלמויות</span>
+</section>
+
+<!-- ========== SECTION 1C: מפצחת לך מצפן — דמוי 30 דק' ========== -->
+<section style="padding:44px 0; background:var(--navy); position:relative; overflow:hidden;" class="dark-section">
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="parallax-wrap parallax-dark" aria-hidden="true">
+        <div class="dark-blob dark-blob-1"></div>
+        <div class="dark-blob dark-blob-2"></div>
+    </div>
+    <div class="container" style="text-align:center;">
+
+        <!-- קופסת הבעיה: שלוש ההצהרות על הכאוס — עיצוב חופשי ללא מסגרת -->
+        <div class="fade-up visible" style="max-width:680px; margin:0 auto 6px;">
+            <p style="font-size:clamp(20px,2.6vw,27px); font-weight:600; color:#ffffff; line-height:2; margin:0;">
+                במקום ללכת לאיבוד בתוך <b style="color:var(--lime); font-weight:800;">סבך האפשרויות</b>,<br>
+                לירות לכל הכיוונים,<br>
+                ולשרוף <b style="color:var(--lime); font-weight:800;">זמן ואנרגיה</b> על דברים שלא נכון לך לקדם כרגע.
+            </p>
+        </div>
+
+        <!-- הבטחת הערך: המצפן -->
+        <div class="fade-up visible" style="margin-bottom:30px;">
+            <p style="font-size:clamp(24px,3vw,32px); font-weight:800; color:var(--lime); line-height:1.7; margin:0;">
+                שיינדי מפצחת לך מצפן<br>
+                <span style="font-size:clamp(18px,2.4vw,22px); font-weight:600; color:#fff; line-height:1.6; display:inline-block; margin-top:4px;">
+                    כדי להחזיר את השליטה לידיים שלך.
+                </span>
+            </p>
+        </div>
+
+        <!-- מפת העצירות: 3 צעדים, כל שורה עם אייקון נפרד -->
+        <div class="map-steps fade-up visible">>
+            <div class="map-step">
+                <span class="map-step-ico">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/><path d="M9 15V5l3 3"/><path d="M9 5l-3 3"/></svg>
+                </span>
+                <span class="map-step-text">קריאת מפת העסק</span>
+            </div>
+            <div class="map-step">
+                <span class="map-step-ico">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/><path d="M17.66 6.34l-1.42 1.42"/><path d="M6.34 17.66l-1.42 1.42"/></svg>
+                </span>
+                <span class="map-step-text">דיוק היעד האישי שלך</span>
+            </div>
+            <div class="map-step">
+                <span class="map-step-ico">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                </span>
+                <span class="map-step-text">הדרכה לרכבת הנכונה לך</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ========== STRIP: מה שהשיחה כוללת ========== -->
+<section style="padding:14px 0; background:var(--navy-dark); position:relative; overflow:hidden; border-top:1px solid rgba(168,208,79,0.12); border-bottom:1px solid rgba(168,208,79,0.12);" class="strip-marquee" aria-label="מה כוללת השיחה">
+    <div class="strip-track">
+        <div class="strip-unit">
+            <span class="strip-item">30 דק' שיחה<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></span>
+            <span class="strip-item">אבחון מצב קיים<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span></span>
+            <span class="strip-item">פיצוח הצעד הבא<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 4 14 9 14 7 22 20 10 15 10 19 2"/></svg></span></span>
+        </div><div class="strip-unit">
+            <span class="strip-item">30 דק' שיחה<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></span>
+            <span class="strip-item">אבחון מצב קיים<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span></span>
+            <span class="strip-item">פיצוח הצעד הבא<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 4 14 9 14 7 22 20 10 15 10 19 2"/></svg></span></span>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SECTION 2: מפצחת ========== -->
+<section class="benefits-section" id="sefaker">
+    <div class="container">
+        <h2 class="fade-up"><span class="sheen" style="--step-sheen-a:#123A63; --step-sheen-b:#2C7BD6;">מה זה בכלל</span> <span style="color:var(--lime);">מפצחת?</span></h2>
+        <p class="intro">
+            מישהי שמציצה לעסק שלך לכמה דקות, רואה <span style="text-decoration:underline; text-underline-offset:3px;">אותך</span>, שומעת מה יש <span style="text-decoration:underline; text-underline-offset:3px;">לך</span> להגיד.<br>
+            לא מוכרת לך קורסים מהפכניים או שולפת שיטות ש'עבדו על אלפי נשים'.<br><br>
+            היא פשוט:
+        </p>
+        <div class="benefit-cards">
+            <div class="benefit-card hover-card">
+                <div class="cursor-glow-cols" aria-hidden="true"></div>
+                <div class="benefit-illustration" aria-hidden="true">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Lock body -->
+                        <rect x="18" y="32" width="36" height="28" rx="5" stroke="#A8D04F" stroke-width="2.5" fill="none"/>
+                        <!-- Lock shackle -->
+                        <path d="M24 32V22a12 12 0 0 1 24 0v10" stroke="#A8D04F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <!-- Keyhole -->
+                        <circle cx="36" cy="44" r="4" stroke="#A8D04F" stroke-width="2" fill="none"/>
+                        <line x1="36" y1="47" x2="36" y2="53" stroke="#A8D04F" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Sparkle top-right — show insight -->
+                        <path d="M50 10l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#A8D04F"/>
+                    </svg>
+                </div>
+                <p style="color:transparent; margin-bottom:0; visibility:hidden;">–</p>
+                <h4>מזהה את החסם התוקע</h4>
+                <p style="max-width:220px; margin:0 auto;">מתוך הקשבה מלאה, שאלות קונקרטיות, והבחנה חדה</p>
+            </div>
+            <div class="benefit-card hover-card">
+                <div class="cursor-glow-cols" aria-hidden="true"></div>
+                <div class="benefit-illustration" aria-hidden="true">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Prohibited sign — circle with diagonal line -->
+                        <circle cx="36" cy="36" r="26" stroke="#A8D04F" stroke-width="2.5" fill="none"/>
+                        <line x1="18" y1="54" x2="54" y2="18" stroke="#A8D04F" stroke-width="2.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <p style="color:transparent; margin-bottom:0; visibility:hidden;">–</p>
+                <h4>עוצרת את הכאוס</h4>
+                <p style="max-width:220px; margin:0 auto;">עוזרת לך להפסיק להתרוצץ בין אלף כיוונים שונים</p>
+            </div>
+            <div class="benefit-card hover-card">
+                <div class="cursor-glow-cols" aria-hidden="true"></div>
+                <div class="benefit-illustration" aria-hidden="true">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Map pin with path -->
+                        <path d="M36 10 C26 10 18 20 18 30 C18 42 36 62 36 62 C36 62 54 42 54 30 C54 20 46 10 36 10Z" stroke="#A8D04F" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+                        <circle cx="36" cy="28" r="5" stroke="#A8D04F" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <p style="color:transparent; margin-bottom:0; visibility:hidden;">–</p>
+                <h4>משרטטת מפת שטח</h4>
+                <p style="max-width:220px; margin:0 auto;">בהירה ומדויקת, מותאמת לתנאי השטח שלך בלבד</p>
+            </div>
+            <div class="benefit-card hover-card">
+                <div class="cursor-glow-cols" aria-hidden="true"></div>
+                <div class="benefit-illustration" aria-hidden="true">
+                    <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Checkmark shield — agreement + action -->
+                        <circle cx="36" cy="36" r="22" stroke="#A8D04F" stroke-width="2.5" fill="none"/>
+                        <path d="M24 36 L32 44 L48 28" stroke="#A8D04F" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p style="color:var(--text-secondary); margin-bottom:0;">מסכמת איתך על –</p>
+                <h4>צעד אחד ליישום מיידי</h4>
+                <p>כי ההגה תמיד נשאר בידיים שלך<br>וכשיש לך מפה — הדרך פשוטה וברורה.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SECTION 2B: מה כוללת השיחה — כפס ========== -->
+<section style="padding:14px 0; background:var(--navy); position:relative; overflow:hidden;" class="strip-marquee" aria-label="מה כוללת השיחה">
+    <div class="strip-track">
+        <div class="strip-unit">
+            <span class="strip-item">30 דק' שיחה<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></span>
+            <span class="strip-item">אבחון מצב קיים<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span></span>
+            <span class="strip-item">פיצוח הצעד הבא<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 4 14 9 14 7 22 20 10 15 10 19 2"/></svg></span></span>
+        </div><div class="strip-unit">
+            <span class="strip-item">30 דק' שיחה<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></span>
+            <span class="strip-item">אבחון מצב קיים<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span></span>
+            <span class="strip-item">פיצוח הצעד הבא<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 4 14 9 14 7 22 20 10 15 10 19 2"/></svg></span></span>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== SECTION 3: FLIP CARDS — סיפורי לקוחות ========== -->
+<section class="flip-section" id="testimonials">
+    <div class="container">
+        <h2 class="fade-up">לקוחות שפיצחו מספרות:</h2>
+
+        <!-- Rotating spokes: orbiting client faces around a lime "pitch" hub.
+             Ported & restyled from the "נקודת ניווט" comp. Faces counter-rotate
+             so they stay level while the orbit spins. -->
+        <div class="spokes-wrap fade-up" aria-hidden="true">
+            <div class="spokes-orbit">
+                <div class="spokes-spoke" style="--ang:0deg"><div class="spokes-card"><img src="images/testimonial-frumi.png" alt=""></div></div>
+                <div class="spokes-spoke" style="--ang:90deg"><div class="spokes-card"><img src="images/testimonial-limor.png" alt=""></div></div>
+                <div class="spokes-spoke" style="--ang:180deg"><div class="spokes-card"><img src="images/testimonial-ortal.jpg" alt=""></div></div>
+                <div class="spokes-spoke" style="--ang:270deg"><div class="spokes-card"><img src="images/testimonial-yehuda.jpg" alt=""></div></div>
+            </div>
+            <div class="spokes-hub">
+                <div><small>שיחת</small><strong>פיצוח</strong><small>פורצת את גג העסק</small></div>
+            </div>
+        </div>
+
+        <div class="flip-grid">
+
+            <!-- Card 1: צילה -->
+            <div class="flip-wrapper">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="content-group">
+                                <div class="client-name">צילה, עורכת לשון</div>
+                                <p class="client-quote">"העסק לא זז פסיעה בלעדיי, ואני לא יכולה לעבוד בלי סוף שעות" – מתארת צילה, עורכת לשון, בכאב. "כשניסיתי להעביר עבודות לקולגות? היה הכי גרוע. עבדתי הרבה יותר קשה בתיקונים הלוך חזור, וכמעט לא הרווחתי :( אני מרגישה נוגעת בתקרת הזכוכית של העסק ולא מוצאת אומץ לפרוץ אותה, ואני גם פוחדת ממיסים שיאכלו לי את כל הרווח... יש דרך לצאת מזה?"</p>
+                            </div>
+                            <span class="client-hint">מזדהה? תמשיכי לפתרון המבריק שפיצחנו >>></span>
+                        </div>
+                        <div class="flip-card-back">
+                            <span class="solution-label">הפיצוח</span>
+                            <p class="solution-quote">"את רוצה לצאת ממגבלות הזמן שלך" – סיכמתי את התסכול של צילה. "להרוויח יותר בלי להוסיף שעות ובלי לשלם מיסים שנוגסים ברווח. שימי לב שהפחד מתשלומי מיסים – חוסם לך את ההתפתחות וגורם לך בתת מודע להרחיק לקוחות". חידדנו את כל ההיבטים בעניין, כשאני מדגישה לצילה: "אני מציבה לך את השאלות הנכונות, ואת בתבונתך תגיעי לתשובות שמדויקות לך". כיוונתי אותה לרואת חשבון שתצמצם לה מיסוי, ואז הגענו יחד להברקה: להתחיל לעבוד עם לקוחות מחו"ל, שמסוגלים ורוצים לשלם יותר.</p>
+                            <p class="result">"התפנית הזו, יחד עם העסקת עובדת פרילנסרית, תעזור לי בס"ד לראות את הרווחים הגדולים" – מספרת צילה בסיפוק.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-carousel" data-speed="75">
+                    <div class="mini-track">
+                        <div class="mini-track-inner">
+                            <div class="mini-slide"><p><strong>מלכי רוזנברג, סטודיו 10</strong> "נהניתי כ"כ איך שדייקת אותי. מה שלקחתי: 'תעשי מה שנכון לך, לא מה שאומרים לך'. תודה!"</p></div>
+                            <div class="mini-slide"><p><strong>מילכה צפירה</strong> "פתחת לי את הראש שאני יכולה להגיע להרבה יותר. עשית לי סדר בעסק ובראש. מחכה לפגישה הבאה!"</p></div>
+                            <div class="mini-slide"><p><strong>נדלניסט בצפון</strong> "הבנת אותי עד הסוף. יצאתי עם תובנות וצעד ברור. אמיתית, לא דוחפת. אמליץ לקולגות."</p></div>
+                            <div class="mini-slide"><p><strong>ריקי קונשטט</strong> "הובלת אותי בשאלות מצוינות להגדיר מה השאלה שלי. הצעת רעיונות מצוינים, ודרבנת אותי לעבוד עליהם תודה!"</p></div>
+                            <div class="mini-slide"><p><strong>רבקה נוימן, עימוד תורני</strong> "תודה על השיחה הזורמת והטובה. עזרת לי לעצור ולבדוק איפה אני עומדת ואיך להתקדם. למקד את החשש שלי מהגדלת הכנסות. בכמה דקות קידמת אותי מאוד. תודה רבה!"</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: פייגי -->
+            <div class="flip-wrapper">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="content-group">
+                                <div class="client-name">פייגי, גרפיקאית</div>
+                                <p class="client-quote">"לקוחות שואלים אותי כמה זמן העבודה תיקח, ואני לא יודעת מה להגיד להם. אין לי שמץ." – התוודתה פייגי, גרפיקאית מוכשרת. "ניסיתי לבנות לי סדר יום קשוח ונשבר לי, לא הייתי מסוגלת לעמוד בו. מצד שני, אני אכולת נקיפות מצפון מזה שהבטחתי ללקוח דד ליין ואני לא עומדת בו, זה גומר אותי רגשית. וזה חוץ מכל הרעיונות היפים שיש לי לפיתוח העסק ולא זזים לשום מקום כי אין להם תאריך יעד..."</p>
+                            </div>
+                            <span class="client-hint">מתסכל, הא? תראי לאן התקדמנו משם >>></span>
+                        </div>
+                        <div class="flip-card-back">
+                            <span class="solution-label">הפיצוח</span>
+                            <p class="solution-quote">"תיאום ציפיות" – אבחנתי את הנקודה שתוקעת אותה. "קודם כל עם עצמך ואח"כ עם הלקוחות. זה מה שיתן לך את היכולת לתת שירות יסודי כמו שאת אוהבת ולקוחות סופר מרוצים. האתגר שלך הוא קודם להבין את מגבלות הזמן שלך, כמה זמן באמת לוקח לך כל דבר – ולשקף את זה ללקוחות". כשפייגי קלטה מה תוקע אותה, היא ביקשה שאעזור לה להבין איך מחשבים נכון את הזמן, ולבנות לו"ז עם מקום לבלת"מים. סיכמנו על פגישה אסטרטגית מורחבת שבה נבנה מסגרת יציבה לעסק.</p>
+                            <p class="result">פייגי מסכמת:  "סוף סוף יצאתי משחיקה רגשית וכלכלית ויישרתי את ההגה על מסלול של בהירות עסקית..."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-carousel" data-speed="60">
+                    <div class="mini-track">
+                        <div class="mini-track-inner">
+                            <div class="mini-slide"><p><strong>טובה ברינגר</strong> "גילתי מישהי פצצה לעסקים. תוך שעה כתבה לי תכנית התנהלות טכנית וארגונית — מא' עד ת'. פשוט מדהים. אלופה. ממליצה לכולם."</p></div>
+                            <div class="mini-slide"><p><strong>מילכי גרינבוים, פאות יוקרה</strong> "התקשיתי לנהל את העסק מבחינת זמן ועובדות. עכשיו אני יודעת שאני לא לבד :) וצריכה לבנות תוכנית מסודרת. תודה לך שיינדי!"</p></div>
+                            <div class="mini-slide"><p><strong>מירי פולישוק</strong> "האתגר שלי היה איך לנהל נכון את כל המערכות. פירקנו אחד על אחד. עשינו סדר. יצאתי עם תובנות ברורות. ממליצה מאוד!"</p></div>
+                            <div class="mini-slide"><p><strong>רבקה וונדר, וונדרפוד</strong> "אין לי מילים!! התחלתי לעבוד אחרת... ממש הרגשתי הקלה!! מעריכה מאד ❤️"</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: אילה -->
+            <div class="flip-wrapper">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="content-group">
+                                <div class="client-name">אילה, קייטרינג</div>
+                                <p class="client-quote">"אני כל הזמן מדשדשת. יש לקוחות פה ושם אבל אני דורכת במקום, לא מצליחה לגדול" – סיפרה לי אילה, בעלת קייטרינג, בתסכול. "בניתי גם קורס, ואני לא מצליחה לסיים אותו ולהתחיל לשווק. די, נגמרה לי המוטיבציה להשקיע..."</p>
+                            </div>
+                            <span class="client-hint">גם לך זה קורה? בואי תקראי את סוף הסיפור >>></span>
+                        </div>
+                        <div class="flip-card-back">
+                            <span class="solution-label">הפיצוח</span>
+                            <p class="solution-quote">"בתפיסה שלך את עדיין קטנה" – תיארתי לאילה, "ולכן את פוחדת לקחת מחירים של גדולים. כשתפנימי שאת לא מוכרת כדי להרוויח, אלא כי יש לך שליחות, תצליחי לקחת את המחיר שמגיע לך, השחיקה תעלם, ותקבלי בוסט של מוטיבציה". המשכנו בכלים פרקטיים לניהול, סודות קטנים לבניית מוטיבציה ולסיום פינקתי אותה בקורסי האסטרטגיה והתמחור החינמיים שלי.</p>
+                            <p class="result">"יש לי עוד עבודה עצמית לעשות," – מבינה אילה, "אבל עכשיו אני יודעת את הכיוון".</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-carousel" data-speed="90">
+                    <div class="mini-track">
+                        <div class="mini-track-inner">
+                            <div class="mini-slide"><p><strong>מיכל פישמן, תוויות</strong> "חיפשתי מישהי שתעשה לי סדר בראש... קראתי ראיון איתך שאמרת שאת הולכת למשרד לעבוד, לא לשבת רגל על רגל. הפגישה הייתה שווה המון - קיבלתי סדר, ערך, הכוונה ודרך. היית אמינה וכנה להסביר לי שאין לי צורך במזכירה קבועה. היושר והאמינות הם מס' 1."</p></div>
+                            <div class="mini-slide"><p><strong>חנה רכניצר</strong> "אחרי הפגישה עם שיינדי קיבלתי בטחון שמי שמנהל נשאר מנהל והיכולות האלו רק משתדרגות עם השנים. ההגדרה של שיינדי 'הפגישה הזו מיותרת' שווה בשבילי המון. אני מספרת עליה ללקוחות שלי."</p></div>
+                            <div class="mini-slide"><p><strong>תהילה יעקובוב</strong> "השיטה שלך של ייעוץ ניהולי עם הגדרת חזון והצבת מטרות - מדהימה. את מקצועית, יודעת לשאול את השאלות הנכונות, ונותנת פתרונות קלים ליישום. היה כיף לפגוש אחת כמוך שמדברת בגובה העיניים."</p></div>
+                            <div class="mini-slide"><p><strong>שרה ברגמן, MaxOffice</strong> "וואו!! אין לך מושג כמה עזרת לי!! הייתי מבולבלת מאוד, וביארת לי את התמונה. אם בעז"ה אצליח לסגור לקוחות בקרוב — זה בזכותך! תזכי למצוות."</p></div>
+                            <div class="mini-slide"><p><strong>היי סטודיו</strong> "התובנה שאני לא באמת עובדת 9 שעות :) מה אני הולכת לשנות? הגדרת שעות נכונה יותר, והעלאת התעריף לשעה. לדעתי כל עסק מכל סוג צריך לבוא אלייך! לא ידעתי עד כמה זה נצרך."</p></div>
+                            <div class="mini-slide"><p><strong>פרומי רבינוביץ</strong> "לא אהבתי את צורת השיווק שלי. הפגישה שינתה לי את ההסתכלות על שיחות מכירה, ודייקה אותי להבין איך וכמה שיחות מכירה עלי לעשות — עם בהירות, ביטחון, אנרגיה וחשק. תודה!"</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: ברכי -->
+            <div class="flip-wrapper">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="content-group">
+                                <div class="client-name">ברכי, רואת חשבון</div>
+                                <p class="client-quote">"יש לי המון חלומות לצמיחה ואני לא מצליחה ליישם אותם" – זה המונולוג של ברכי, רואת חשבון מצליחה. "לא יודעת למה זה קורה לי. אני טיפוס מסודר, איך הזמן מתגלש לי מהאצבעות? ואיך פתאום בעלי חוזר הביתה ואני עדיין על המחשב? כאילו מה, העסק חשוב לי יותר מהמשפחה?"</p>
+                            </div>
+                            <span class="client-hint">מכירה את זה מקרוב? גם את זה פיצחנו, תראי >>></span>
+                        </div>
+                        <div class="flip-card-back">
+                            <span class="solution-label">הפיצוח</span>
+                            <p class="solution-quote">"את מתכננת יותר מידי משימות לאותו זמן, או שיש לך מסיחי דעת?" מיקדתי את ברכי. בתשאול קצר גילינו ש... גם וגם. "זאת בעיה ידועה של מצליחנים", הרגעתי אותה. "בואי נראה איך את יכולה לנהל את העסק שלך, ולא לתת לו לנהל אותך." הגענו יחד למסקנה שסדר יום מרווח והגיוני יותר, יחד עם הצבת גבולות מדויקים ללקוחות, הם הדבר.</p>
+                            <p class="result">"היה מתסכל כל-כך לסיים עוד יום בהרגשה של: אוף, עוד פעם לא הצלחתי" – ברכי משתפת בגילוי לב. "בזכות קיצור הדרך המחשבתי שעשית לי, אני אעבוד כל יום בכיף, ובלי להזניח את הדברים המשמעותיים באמת בחיים..."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-carousel" data-speed="65">
+                    <div class="mini-track">
+                        <div class="mini-track-inner">
+                            <div class="mini-slide"><p><strong>אחווה פלוטקין, טיפול רגשי</strong> "נתת לי כח ומרחב, פירקת לי את המשימה לאפשרית. תדעי שזה ממש חסד, ותודה."</p></div>
+                            <div class="mini-slide"><p><strong>כרמית אלמן</strong> "לא סובלת טבלאות ומספרים — ושיינדי עשתה לי טבלה מפורטת וברורה בהתאמה מדויקת! ממליצה בחום!"</p></div>
+                            <div class="mini-slide"><p><strong>מיטל לאה תלמיד</strong> "תותחית על! 'פגישה אחת יכולה לחסוך לך חודשי עבודה'... לא האמנתי. אבל באתי. וקיבלתי ערך רב: יכולת לתרגם את החזון לפעולות קונקרטיות, אפיקי שיווק ויעדים. תודה רבה!"</p></div>
+                            <div class="mini-slide"><p><strong>בעילום שם</strong> "לא סובלת טבלאות. אבל הטבלה הזו הפכה לקיר שלי, והיא מנהלת לי את כל העסק! לא ידעתי עד כמה זה נצרך."</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ========== SECTION 3B: PRICING BREAKDOWN ========== -->
+<section class="pricing-section" style="padding:56px 0;">
+    <div class="container" style="text-align:center;">
+        <h3 style="margin-bottom:4px;">כמה זה עולה?</h3>
+        <p style="font-size:18px; color:var(--text-secondary); margin-bottom:28px;">עכשיו במחיר השקה לזמן מוגבל!</p>
+
+        <div style="display:inline-block; text-align:center;">
+            <div style="display:flex; align-items:baseline; justify-content:center;">
+                <span style="font-size:64px; font-weight:800; color:var(--text-primary); line-height:1; text-shadow:0 0 24px rgba(168,208,79,0.4);">200</span>
+                <span style="font-size:28px; font-weight:700; color:var(--text-primary); margin-inline-start:2px; text-shadow:0 0 24px rgba(168,208,79,0.4);">₪</span>
+            </div>
+            <div style="font-size:16px; color:var(--gray-500); margin-top:4px;">+ מע"מ</div>
+            <div style="font-size:16px; color:var(--gray-400); margin-top:14px;">
+                במקום <span style="text-decoration:line-through; text-decoration-color:#EF4444; text-decoration-thickness:2px; text-underline-offset:4px;">500 ₪</span>
+            </div>
+        </div>
+
+        <div class="cta-wrapper" style="margin-top:28px;">
+            <a href="https://pay.sumit.co.il/dhfzbv/zyc7pj/zyc7pl/payment/" class="cta-btn">שיינדי, זה בדיוק הרוגע שהעסק שלי צריך</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SECTION 4: STEPS — 3 שלבים ========== -->
+<section class="steps-section" id="process">
+    <div class="container">
+        <h2 class="fade-up">אז, איך מקבלים פיצוח?</h2>
+
+        <div class="steps-grid">
+            <a href="https://pay.sumit.co.il/dhfzbv/zyc7pj/zyc7pl/payment/" class="step-card fade-up" style="text-decoration:none; color:inherit; display:flex; flex-direction:column; align-items:center; gap:20px;">
+                <div class="step-card-num">1</div>
+                <h4>משאירים פרטים</h4>
+                <span class="step-note">אחרת איך נפצח?</span>
+            </a>
+            <div class="step-arrow" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M26 16H6M6 16L12 10M6 16L12 22" stroke="#A8D04F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <a href="https://pay.sumit.co.il/dhfzbv/zyc7pj/zyc7pl/payment/" class="step-card fade-up" style="text-decoration:none; color:inherit; display:flex; flex-direction:column; align-items:center; gap:20px;">
+                <div class="step-card-num">2</div>
+                <h4>מזינים פרטי אשראי</h4>
+                <span class="step-note">שיחזירו את עצמם מהר ובגדול!</span>
+            </a>
+            <div class="step-arrow" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M26 16H6M6 16L12 10M6 16L12 22" stroke="#A8D04F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <a href="https://pay.sumit.co.il/dhfzbv/zyc7pj/zyc7pl/payment/" class="step-card fade-up" style="text-decoration:none; color:inherit; display:flex; flex-direction:column; align-items:center; gap:20px;">
+                <div class="step-card-num">3</div>
+                <h4>בוחרים מועד נח לשיחה</h4>
+                <span class="step-note">עם פניות מקסימלית להגשמה שלך!</span>
+            </a>
+        </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ========== SECTION 4B: מה כוללת השיחה — כפס ========== -->
+<section style="padding:14px 0; background:var(--navy); position:relative; overflow:hidden;" class="strip-marquee" aria-label="מה כוללת השיחה">
+    <div class="strip-track">
+        <div class="strip-unit">
+            <span class="strip-item">30 דק' שיחה<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></span>
+            <span class="strip-item">אבחון מצב קיים<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span></span>
+            <span class="strip-item">פיצוח הצעד הבא<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 4 14 9 14 7 22 20 10 15 10 19 2"/></svg></span></span>
+        </div><div class="strip-unit">
+            <span class="strip-item">30 דק' שיחה<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></span>
+            <span class="strip-item">אבחון מצב קיים<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span></span>
+            <span class="strip-item">פיצוח הצעד הבא<span class="strip-ico"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 4 14 9 14 7 22 20 10 15 10 19 2"/></svg></span></span>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SECTION 5: OBJECTIONS ========== -->
+<section class="objections-section" id="objections">
+    <div class="container">
+        <h2 class="fade-up">רגע, רציתי רק לשאול...</h2>
+        <div class="objections-list">
+
+            <div class="obj-item">
+                <div class="obj-question-wrap" onclick="toggleObj(this)" onmouseenter="if(window.innerWidth>768)toggleObj(this,true)" onmouseleave="if(window.innerWidth>768)toggleObj(this,false)">
+                    <div class="obj-question"><span class="obj-icon" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="12" stroke="#A8D04F" stroke-width="2"/><path d="M10 12a4 4 0 0 1 8 0c0 4-4 7-4 7s-4-3-4-7z" stroke="#A8D04F" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="14" cy="14" r="2" fill="#A8D04F"/></svg></span> "נשמע טוב, אבל מה בוער עכשיו? אולי בהמשך, נראה…"</div>
+                    <svg class="obj-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="obj-answer-wrap"><div class="obj-answer-inner">
+                    <p class="obj-answer">שום דבר לא בוער, ממש לא. אפשר לסחוב עוד כמה חודשים בעסק, לחטוף סחרחורת מהכאוס, לגמור כל חודש בתסכול עמוק כי את יודעת שאת מסוגלת להרבה יותר, ורק עוד חצי שנה לבוא לבדוק מה חוסם אותך... לא חבל?</p>
+                    <span class="obj-highlight">שווי פגישה כזאת: 500 ₪. מחיר השקה: 200 ₪. עד מתי? לא להרבה זמן...</span>
+                </div></div>
+            </div>
+
+            <div class="obj-item">
+                <div class="obj-question-wrap" onclick="toggleObj(this)" onmouseenter="if(window.innerWidth>768)toggleObj(this,true)" onmouseleave="if(window.innerWidth>768)toggleObj(this,false)">
+                    <div class="obj-question"><span class="obj-icon" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="12" stroke="#A8D04F" stroke-width="2"/><path d="M10 12a4 4 0 0 1 8 0c0 4-4 7-4 7s-4-3-4-7z" stroke="#A8D04F" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="14" cy="14" r="2" fill="#A8D04F"/></svg></span> "זה יכול לעזור, אבל חבל לי על הכסף…"</div>
+                    <svg class="obj-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="obj-answer-wrap"><div class="obj-answer-inner">
+                    <p class="obj-answer">גם לי חבל על הכסף שלך, שיכול לפרנס בינתיים משפחה יהודייה. חבל מאוד. בדיוק לכן אני רואה שליחות לעזור לך לנצח את התקיעות, להרוויח הרבה יותר ולחיות בשפיות.</p>
+                </div></div>
+            </div>
+
+            <div class="obj-item">
+                <div class="obj-question-wrap" onclick="toggleObj(this)" onmouseenter="if(window.innerWidth>768)toggleObj(this,true)" onmouseleave="if(window.innerWidth>768)toggleObj(this,false)">
+                    <div class="obj-question"><span class="obj-icon" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="12" stroke="#A8D04F" stroke-width="2"/><path d="M10 12a4 4 0 0 1 8 0c0 4-4 7-4 7s-4-3-4-7z" stroke="#A8D04F" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="14" cy="14" r="2" fill="#A8D04F"/></svg></span> "יש המון יועצות עסקיות, למה דווקא שיינדי?"</div>
+                    <svg class="obj-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="obj-answer-wrap"><div class="obj-answer-inner">
+                    <p class="obj-answer">יש יועצות מעולות בשוק, אין ספק. ובכל זאת, נראה שאת מחפשת משהו אחר. ייעוץ קצרצר שיחדד לך את עצמך. יבחין בך, עם כל המכלול שלך ויתן לך את הכיוון. במחיר נמוך שתחזירי לעצמך בקלות. הלקוחות שלי מספרות שאני כזו, אבל אל תאמיני להן — תנסי בעצמך.</p>
+                </div></div>
+            </div>
+
+            <div class="obj-item">
+                <div class="obj-question-wrap" onclick="toggleObj(this)" onmouseenter="if(window.innerWidth>768)toggleObj(this,true)" onmouseleave="if(window.innerWidth>768)toggleObj(this,false)">
+                    <div class="obj-question"><span class="obj-icon" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="12" stroke="#A8D04F" stroke-width="2"/><path d="M10 12a4 4 0 0 1 8 0c0 4-4 7-4 7s-4-3-4-7z" stroke="#A8D04F" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="14" cy="14" r="2" fill="#A8D04F"/></svg></span> "יש לי אלף משימות על הראש, איפה אני אכניס עוד פגישה?"</div>
+                    <svg class="obj-chevron" viewBox="0 0 20 20" fill="currentColor"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="obj-answer-wrap"><div class="obj-answer-inner">
+                    <p class="obj-answer">את עובדת קשה, ובדיוק לכן מגיעה לך פגישה שהיא קיצור דרך מחשבתי חריף. מגיע לך להפסיק לרדוף אחרי הזמן. להתחיל לנהל את העסק בכבוד.</p>
+                </div></div>
+            </div>
+
+        </div>
+
+        <div class="cta-wrapper" style="text-align:center;">
+            <a href="https://pay.sumit.co.il/dhfzbv/zyc7pj/zyc7pl/payment/" class="cta-btn">הפיצוח החד הזה, הוא בול מה שחסר לי כדי להצליח!</a>
+        </div>
+
+    </div>
+</section>
+
+<!-- ========== SECTION 6: CTA ========== -->
+<section class="cta-section" id="cta">
+    <div class="container">
+        <div class="testimonial-strip">
+            <div class="testimonial-strip-item">
+                <p class="ts-quote">"זה פשוט מטורף. זכיתי לפגוש אשת מקצוע בתחומה שעוזרת ומלמדת לפרק את העסק לגורמים ולעשות סדר."</p>
+                <span class="ts-name">יהודה פרוידנברגר</span>
+            </div>
+            <div class="testimonial-strip-item">
+                <p class="ts-quote">"קודם כל העמדת אותי בפני המציאות — איפה אני נמצאת, האם מה שאני עוסקת באמת מתאים לי, לתנאי החיים שלי, בזכותך אני אמקד את עצמי מדויק יותר."</p>
+                <span class="ts-name">לימור זאיד</span>
+            </div>
+            <div class="testimonial-strip-item">
+                <p class="ts-quote">"תודה נשמה! שתדעי שהפגישה איתך היא מתנה גדולה עבורי!!! את יודעת לרדת לעומקם של דברים ולהכניס לתבנית בצורה מדויקת כל כך!!"</p>
+                <span class="ts-name">אורטל לוי</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SECTION 7: PERSONAL ========== -->
+<section class="personal-section">
+    <div class="container">
+        <span class="typewriter-line" id="twLine" aria-live="polite"><span class="tw-text"></span><span class="tw-cursor" aria-hidden="true"></span></span>
+        <br><br>
+        <a href="https://pay.sumit.co.il/dhfzbv/zyc7pj/zyc7pl/payment/" class="cta-btn">העסק שלי מוכרח לקבל את הפיצוח הזה.</a>
+        <br><br>
+        <p class="personal-text">
+            מאמינה ביכולת שלך להרוויח בכבוד,<br>
+            עם סיפוק ושליחות, ובלי להיאבד בדרך.
+        </p>
+        <div class="signature"><img src="images/logo-wide-white.png" alt="שיינדי" class="sig-logo"></div>
+    </div>
+</section>
+
+<footer>
+    <!-- Footer testimonials bubbles -->
+    <div class="footer-testimonials">
+        <div class="container">
+            <p class="section-label">מה אומרים על שיינדי</p>
+            <div class="footer-testimonial-grid" id="testimonialRotator"></div>
+        </div>
+    </div>
+    <div class="container">
+        <p>שיינדי וינברגר — חיים בעסק — ייעוץ ניהולי מניע</p>
+        <p style="font-size:13px; margin-top:6px; opacity:0.7;">
+            <a href="mailto:sheindy@sikatmisrad.com" style="color:inherit; text-decoration:none;">sheindy@sikatmisrad.com</a>
+            <span style="margin:0 8px;">·</span>
+            <span>נבנה ע"י</span>
+            <a href="mailto:c0556773012@gmail.com" style="color:inherit; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#A8D04F'" onmouseout="this.style.color='inherit'">ח. וואלך</a>
+        </p>
+    </div>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── Running strip: fills continuously with text entering from the right ──
+    // Pure JS-driven seamless ticker. Copies the first unit enough times so the
+    // row always covers the viewport, then shifts by exactly one copy+gap and
+    // wraps. Re-measures after fonts/resize so it never looks half-empty.
+    (function() {
+        var STRIP_GAP = 110;             // must match .strip-track { gap }
+        var SPEED = 60;                  // px/sec — very slow, calm ticker
+        var MIN_COPIES = 4;              // guarantee the row is never sparse
+        var marquees = document.querySelectorAll('.strip-marquee');
+        if (!marquees.length) return;
+        marquees.forEach(function(marquee) {
+            var track = marquee.querySelector('.strip-track');
+            var template = marquee.querySelector('.strip-unit');
+            if (!track || !template) return;
+
+            // Keep exactly one live copy, drop any pre-existing duplicates
+            var units = track.querySelectorAll('.strip-unit');
+            for (var u = 1; u < units.length; u++) units[u].parentNode.removeChild(units[u]);
+
+            function refresh() {
+                var vw = marquee.getBoundingClientRect().width || window.innerWidth;
+                var copyW = template.getBoundingClientRect().width;
+                var stepW = Math.max(1, copyW + STRIP_GAP);
+                // Track must comfortably exceed viewport + one copy so a fresh
+                // set is always sliding in from the right, with no empty window.
+                var wanted = Math.max(MIN_COPIES, Math.ceil((vw + 2 * stepW) / stepW));
+                while (track.children.length < wanted) {
+                    track.appendChild(template.cloneNode(true));
+                }
+                while (track.children.length > wanted) {
+                    track.removeChild(track.lastChild);
+                }
+                return stepW;
+            }
+
+            var run = !prefersReduced;
+            var paused = false;
+            var stepW = refresh();
+            var pos = 0, last = null;
+
+            function tick(ts) {
+                if (run && !paused && stepW) {
+                    if (last == null) last = ts;
+                    pos += (SPEED * (ts - last)) / 1000;
+                    last = ts;
+                    if (pos >= stepW) pos -= stepW;      // seamless wrap
+                    track.style.transform = 'translateX(' + (-pos) + 'px)';
+                }
+                requestAnimationFrame(tick);
+            }
+
+            marquee.addEventListener('mouseenter', function(){ paused = true; marquee.classList.add('paused'); });
+            marquee.addEventListener('mouseleave', function(){ paused = false; marquee.classList.remove('paused'); });
+            window.addEventListener('resize', refresh);
+            if (window.addEventListener) {
+                // Re-measure once the real webfont has loaded so we never stay sparse.
+                window.addEventListener('load', refresh);
+                if (document.fonts && 'ready' in document.fonts) {
+                    document.fonts.ready.then(function(){ refresh(); }).catch(function(){});
+                    document.fonts.addEventListener('loadingdone', refresh);
+                }
+            }
+
+            if (run) requestAnimationFrame(tick);
+        });
+    })();
+
+    // ── Objections accordion ──
+    window.toggleObj = function(wrap, force) {
+        var item = wrap.closest('.obj-item');
+        if (!item) return;
+        if (typeof force === 'boolean') {
+            if (force) item.classList.add('open');
+            else item.classList.remove('open');
+        } else {
+            item.classList.toggle('open');
+        }
+    };
+
+    // ── Fade-up observer ──
+    const fadeEls = document.querySelectorAll('.benefit-card, .obj-item, .flip-wrapper, h2.fade-up, .step-card');
+    if (fadeEls.length && 'IntersectionObserver' in window) {
+        fadeEls.forEach(function(el) {
+            el.classList.add('fade-up');
+            // Show immediately inside filled navy bands so they never leave an empty gap.
+            if (el.closest('.dark-section')) { el.classList.add('visible'); }
+        });
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        fadeEls.forEach(function(el) { observer.observe(el); });
+    }
+
+    // ── Reveal-on-scroll (story unfold) ──
+    const revealEls = document.querySelectorAll('.reveal');
+    if (revealEls.length && 'IntersectionObserver' in window && !('prefers-reduced-motion' in window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+        var revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    // stagger children gently for a "story" feel
+                    entry.target.classList.add('in-view');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+        revealEls.forEach(function(el) { revealObserver.observe(el); });
+    } else {
+        revealEls.forEach(function(el) { el.classList.add('in-view'); });
+    }
+
+    // Delay cascade for .reveal groups (applies to direct children)
+    document.querySelectorAll('.reveal-group').forEach(function(group) {
+        Array.prototype.forEach.call(group.querySelectorAll(':scope > *'), function(child, i) {
+            child.classList.add('reveal');
+            child.style.transitionDelay = Math.min(i * 0.09, 0.45) + 's';
+            // re-observe children too
+            if (typeof revealObserver !== 'undefined' && revealObserver) {
+                revealObserver.observe(child);
+            } else {
+                child.classList.add('in-view');
+            }
+        });
+    });
+
+    // ── Cursor glow (dark sections) ──
+    function bindCursorGlow(container, selector) {
+        if (!container) return;
+        var glow = container.querySelector(selector);
+        if (!glow || ('ontouchstart' in window) || (window.matchMedia('(hover: none)').matches)) {
+            if (glow) glow.classList.add('lit');
+            return;
+        }
+        container.addEventListener('mousemove', function(e) {
+            var rect = container.getBoundingClientRect();
+            glow.style.left = (e.clientX - rect.left) + 'px';
+            glow.style.top = (e.clientY - rect.top) + 'px';
+            glow.classList.add('lit');
+        });
+        container.addEventListener('mouseleave', function() { glow.classList.remove('lit'); });
+    }
+    document.querySelectorAll('.dark-section').forEach(function(sec) {
+        bindCursorGlow(sec, '.cursor-glow');
+    });
+    document.querySelectorAll('.hover-card').forEach(function(card) {
+        bindCursorGlow(card, '.cursor-glow-cols');
+    });
+
+    // ── Seamless marquee: always keep the strip FULL of text, no gap ──
+    // The track scrolls via translateX(-50%), so a seamless loop needs at
+    // least enough copies that HALF the track covers the whole viewport AND
+    // an EVEN number of copies (so -50% lands on a whole copy and wraps
+    // with no visible seam). Fonts often finish loading after this script
+    // runs, so we (a) over-provision a healthy minimum and (b) re-run the
+    // check once fonts are ready — so there is never a moment of running out.
+    function fillStrip(track) {
+        var unit = track.querySelector('.strip-unit');
+        if (!unit) return;
+        var prototype = unit.cloneNode(true);
+        var guard = 0;
+        while (
+            (track.children.length < 10 ||                      // always at least 10 copies
+             track.scrollWidth / 2 < window.innerWidth ||       // half the strip >= viewport
+             track.children.length % 2 !== 0) && guard < 200    // keep the count EVEN
+        ) {
+            track.appendChild(prototype.cloneNode(true));
+            guard++;
+        }
+    }
+    document.querySelectorAll('.strip-track').forEach(fillStrip);
+    // Re-measure once the web fonts have loaded and on every resize, so wide
+    // screens never expose an empty beat into the loop.
+    (function() {
+        function refill() { document.querySelectorAll('.strip-track').forEach(fillStrip); }
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(refill);
+        }
+        window.addEventListener('resize', refill);
+    })();
+
+    // ── Staggered entrance for groups of siblings ──
+    ['benefit-card', 'step-card'].forEach(function(cls) {
+        document.querySelectorAll('.' + cls).forEach(function(el, i) {
+            el.style.transitionDelay = (i * 0.12) + 's';
+        });
+    });
+
+    // ── Flip Cards — keyboard accessibility ──
+    document.querySelectorAll('.flip-card').forEach(function(card) {
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-pressed', 'false');
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                card.classList.toggle('flipped');
+                card.setAttribute('aria-pressed', card.classList.contains('flipped') ? 'true' : 'false');
+            }
+        });
+        card.addEventListener('click', function() {
+            card.setAttribute('aria-pressed', card.classList.contains('flipped') ? 'true' : 'false');
+        });
+    });
+
+    // ── Mini carousels — fade between testimonials ──
+    (function() {
+        var carousels = document.querySelectorAll('.mini-carousel');
+        carousels.forEach(function(carousel) {
+            var slides = carousel.querySelectorAll('.mini-slide');
+            if (slides.length === 0) return;
+
+            // Use data-speed as interval in seconds (default 4s)
+            var interval = parseFloat(carousel.getAttribute('data-speed')) || 4;
+            // Scale: original speeds were 25-90 for scroll; we convert to 3-6s intervals
+            // data-speed=90 (fast) → 3s, data-speed=25 (slow) → 6s
+            interval = Math.max(3, Math.min(6, 7 - (interval / 22)));
+            interval = interval * 1000; // convert to ms
+
+            var current = 0;
+
+            // Show first slide
+            slides[0].classList.add('active');
+
+            // Pause on hover
+            var paused = false;
+            carousel.addEventListener('mouseenter', function() { paused = true; });
+            carousel.addEventListener('mouseleave', function() { paused = false; });
+
+            // Rotate slides
+            function rotate() {
+                if (paused) return;
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }
+
+            setInterval(rotate, interval);
+        });
+    })();
+
+    // ── Footer testimonial rotator ──
+    (function() {
+        var testimonials = [
+            'מיכל פישמן: "היושר והאמינות הם מס\' 1"',
+            'תהילה יעקובוב: "מקצועית, יודעת לשאול את השאלות הנכונות"',
+            'שרה ברגמן: "וואו!! אין לך מושג כמה עזרת לי!!"',
+            'היי סטודיו: "לא ידעתי עד כמה זה נצרך"',
+            'פרומי רבינוביץ: "שינתה לי את ההסתכלות על שיחות מכירה"',
+            'מירי פולישוק: "עשינו סדר, פירקנו אחד על אחד"',
+            'רבקה וונדר: "התחלתי להרגיש הקלה!! מעריכה מאד ❤️"',
+            'מלכי רוזנברג: "נהניתי כ"כ איך שדייקת אותי"',
+            'מילכה צפירה: "פתחת לי את הראש שאני יכולה להגיע להרבה יותר"',
+            'נדלניסט בצפון: "אמיתית, לא דוחפת. אמליץ לקולגות"',
+            'ריקי קונשטט: "הובלת אותי בשאלות מצוינות"',
+            'רבקה נוימן: "בכמה דקות קידמת אותי מאוד. תודה רבה!"',
+            'אחווה פלוטקין: "נתת לי כח ומרחב, פירקת לי את המשימה לאפשרית"',
+            'כרמית אלמן: "ממליצה בחום על שיינדי"',
+            'מיטל לאה תלמיד: "תותחית על! קיבלתי ערך רב"',
+            'בעילום שם: "עזרת לי להבין את המצב בעסק שלי עצמי"'
+        ];
+        var perSet = 5;
+        var sets = [];
+        for (var i = 0; i < testimonials.length; i += perSet) {
+            sets.push(testimonials.slice(i, i + perSet));
+        }
+        // Merge last set if it's too small (one item left)
+        if (sets.length > 1 && sets[sets.length - 1].length <= 2) {
+            var last = sets.pop();
+            sets[sets.length - 1] = sets[sets.length - 1].concat(last);
+        }
+
+        var grid = document.getElementById('testimonialRotator');
+        if (!grid) return;
+
+        var currentSet = 0;
+
+        function renderSet(index) {
+            grid.style.opacity = '0';
+            grid.style.transform = 'translateY(6px)';
+            grid.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+            setTimeout(function() {
+                grid.innerHTML = '';
+                sets[index].forEach(function(t) {
+                    var el = document.createElement('div');
+                    el.className = 'footer-testimonial-item';
+                    el.textContent = t;
+                    grid.appendChild(el);
+                });
+                grid.style.opacity = '1';
+                grid.style.transform = 'translateY(0)';
+            }, 350);
+        }
+
+        renderSet(0);
+
+        var paused = false;
+        grid.addEventListener('mouseenter', function() { paused = true; });
+        grid.addEventListener('mouseleave', function() { paused = false; });
+
+        setInterval(function() {
+            if (paused) return;
+            currentSet = (currentSet + 1) % sets.length;
+            renderSet(currentSet);
+        }, 4000);
+    })();
+
+    /* ========== Sticky nav + hide-on-scroll + scroll-spy ========== */
+    (function() {
+        var nav = document.getElementById('siteNav');
+        if (!nav) return;
+        var lastY = window.scrollY || 0;
+        var ticking = false;
+
+        var targetIds = ['sefaker', 'testimonials', 'process', 'objections'];
+
+        function updateSpy() {
+            var y = window.scrollY || 0;
+            var firstId = null;
+            var links = nav.querySelectorAll('a[data-nav]');
+            links.forEach(function(link) { link.classList.remove('is-active'); });
+
+            for (var i = 0; i < targetIds.length; i++) {
+                var el = document.getElementById(targetIds[i]);
+                if (!el) continue;
+                if (el.offsetTop - 120 <= y) {
+                    firstId = targetIds[i];
+                }
+            }
+            if (firstId) {
+                var active = nav.querySelector('a[data-nav="' + firstId + '"]');
+                if (active) active.classList.add('is-active');
+            }
+        }
+
+        function onScroll() {
+            var y = window.scrollY || 0;
+            nav.classList.toggle('nav-solid', y > 60);
+
+            var heroEl = document.querySelector('.hero');
+            var heroBottom = heroEl ? heroEl.offsetHeight : 80;
+            if (y > lastY + 2 && y > heroBottom * 0.85) {
+                nav.classList.add('nav-hidden');
+            } else if (y < lastY - 2 || y <= heroBottom * 0.85) {
+                nav.classList.remove('nav-hidden');
+            }
+            lastY = y;
+
+            updateSpy();
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function() {
+            if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
+        }, { passive: true });
+        onScroll();
+    })();
+
+    /* ========== Parallax — soft layering on backgrounds ========== */
+    (function() {
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) return;
+
+        var els = document.querySelectorAll('.parallax-hero, .parallax-dark');
+        if (!els.length) return;
+
+        var factors = { 'parallax-hero': 0.10, 'parallax-dark': -0.08 };
+        var ticking = false;
+
+        function onScroll() {
+            var y = window.scrollY || 0;
+            els.forEach(function(el) {
+                var key = el.className.match(/parallax-\w+/);
+                var f = key ? (factors[key[0]] || 0) : 0;
+                // gentle drift — backgrounds lag behind the content
+                el.style.transform = 'translateY(' + (y * f) + 'px)';
+            });
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function() {
+            if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
+        }, { passive: true });
+        onScroll();
+    })();
+
+    /* ========== Typewriter — предлагаемые слова/предложения ========== */
+    (function() {
+        var line = document.getElementById('twLine');
+        if (!line) return;
+        var items = [
+            '30 דק\' שיחה.',
+            'אבחון מצב קיים.',
+            'פיצוח הצעד הבא.',
+            'סדר חדש בעסק שלך.'
+        ];
+        var li = 0, ci = 0, deleting = false, isDeleting = false;
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        var textOut = line.querySelector('.tw-text');
+
+        function step() {
+            var word = items[li];
+            if (isDeleting) { ci--; } else { ci++; }
+            textOut.textContent = word.substring(0, ci);
+
+            var delay = isDeleting ? 45 : 110;
+            if (!isDeleting && ci === word.length) { delay = 1800; isDeleting = true; }
+            else if (isDeleting && ci === 0) { isDeleting = false; li = (li + 1) % items.length; delay = 400; }
+
+            setTimeout(step, delay);
+        }
+        if (reduceMotion) {
+            textOut.textContent = items[0];
+        } else {
+            setTimeout(step, 600);
+        }
+    })();
+
+    /* ========== Typewriter #2 — hero reassurance rotator ========== */
+    (function() {
+        var rot = document.querySelector('.typewriter-rotator');
+        if (!rot) return;
+        var textOut = rot.querySelector('.tw-rot-text');
+        var items = [
+            'הגיע הזמן למפצחת, לגו-גו — לחשב מסלול מחדש.',
+            'לא חסר לך ידע — חסר לך מבט מבחוץ.',
+            'הביטחון שהפעולות שלך באמת מקדמות אותך.',
+            'פורצים את תקרת הזכוכית יחד.'
+        ];
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) { textOut.textContent = items[0]; return; }
+
+        var li = 0, ci = 0, isDeleting = false;
+        function step() {
+            var word = items[li];
+            if (isDeleting) { ci--; } else { ci++; }
+            textOut.textContent = word.substring(0, ci);
+            var delay = isDeleting ? 38 : 95;
+            if (!isDeleting && ci === word.length) { delay = 2400; isDeleting = true; }
+            else if (isDeleting && ci === 0) { isDeleting = false; li = (li + 1) % items.length; delay = 350; }
+            setTimeout(step, delay);
+        }
+        setTimeout(step, 2000); // wait for the hero to settle before typing
+    })();
+
+})();
+</script>
+
+</body>
+</html>
